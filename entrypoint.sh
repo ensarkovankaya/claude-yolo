@@ -28,4 +28,8 @@ if [ -n "$GITHUB_TOKEN" ]; then
   echo "$GITHUB_TOKEN" | gh auth login --with-token
 fi
 
-exec /bin/zsh "$@"
+if [ $# -gt 0 ]; then
+  exec "$@"
+else
+  exec /bin/zsh
+fi
