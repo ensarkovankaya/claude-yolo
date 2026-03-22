@@ -17,8 +17,9 @@ if [ -n "$ANTHROPIC_API_KEY" ]; then
   fi
 fi
 
-# Copy host gitconfig (user.name, user.email, etc.) then apply container-specific overrides
-[ -f /home/node/.gitconfig.host ] && cp /home/node/.gitconfig.host /home/node/.gitconfig
+# Configure git user from environment variables
+[ -n "$GIT_USER_NAME" ] && git config --global user.name "$GIT_USER_NAME"
+[ -n "$GIT_USER_EMAIL" ] && git config --global user.email "$GIT_USER_EMAIL"
 
 # Configure git with GitHub token if provided
 if [ -n "$GITHUB_TOKEN" ]; then

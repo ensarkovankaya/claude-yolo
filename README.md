@@ -58,36 +58,27 @@ docker build -t claude-yolo .
 
 ## Usage
 
-Add this alias to your `~/.zshrc` or `~/.bashrc`:
+From any directory:
 
 ```bash
-alias claude-yolo='docker run -it --rm \
-  --cap-add=NET_ADMIN \
-  --cap-add=NET_RAW \
-  --network=host \
-  -v "$PWD:/workspace" \
-  -v "$HOME/.claude/.credentials.json:/home/node/.claude/.credentials.json:ro" \
-  -v "$HOME/.claude/plugins:/home/node/.claude/plugins:ro" \
-  -v "$HOME/.gitconfig:/home/node/.gitconfig.host:ro" \
-  -e TZ=${TZ:-Europe/Istanbul} \
-  -e GITHUB_TOKEN=${GITHUB_TOKEN} \
-  -e HOST_HOME=${HOME} \
-  claude-yolo claude --dangerously-skip-permissions'
+make -C /path/to/claude-docker run
 ```
 
-Then run from any directory:
+Or add a shell alias:
 
 ```bash
-claude-yolo
+alias claude-yolo='make -C /path/to/claude-docker run'
 ```
 
 ### Environment Variables
 
-| Variable       | Description                                              |
-|----------------|----------------------------------------------------------|
-| `GITHUB_TOKEN` | GitHub token for git operations and `gh` CLI             |
-| `TZ`           | Timezone (default: `Europe/Istanbul`)                    |
-| `HOME`         | Used to mount credentials, plugins, and gitconfig from host |
+| Variable        | Description                                           |
+|-----------------|-------------------------------------------------------|
+| `GITHUB_TOKEN`  | GitHub token for git operations and `gh` CLI          |
+| `GIT_USER_NAME` | Git user.name (auto-read from host git config)        |
+| `GIT_USER_EMAIL`| Git user.email (auto-read from host git config)       |
+| `TZ`            | Timezone (default: `Europe/Istanbul`)                 |
+| `HOME`          | Used to mount credentials and plugins from host       |
 
 ### Mounted Volumes
 
@@ -96,4 +87,3 @@ claude-yolo
 | `$PWD`                         | `/workspace`                             | Current directory            |
 | `~/.claude/.credentials.json`  | `/home/node/.claude/.credentials.json`   | Claude credentials (read-only) |
 | `~/.claude/plugins`            | `/home/node/.claude/plugins`             | Claude plugins (read-only)   |
-| `~/.gitconfig`                 | `/home/node/.gitconfig.host`             | Git config (read-only)       |
