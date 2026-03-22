@@ -25,8 +25,8 @@ fi
 if [ -n "$GITHUB_TOKEN" ]; then
   git config --global url."https://${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
   git config --global url."https://github.com/".insteadOf "git@github.com:"
-  gh auth setup-git
   echo "$GITHUB_TOKEN" | gh auth login --with-token
+  gh auth setup-git
 fi
 
 if [ $# -gt 0 ]; then

@@ -1,7 +1,7 @@
 .PHONY: build run
 
 build:
-	docker build -t claude-yolo .
+	docker build --no-cache -t claude-yolo .
 
 run:
 	docker run -it --rm \
@@ -14,6 +14,6 @@ run:
 	  -e GIT_USER_NAME="$$(git config user.name)" \
 	  -e GIT_USER_EMAIL="$$(git config user.email)" \
 	  -e TZ=$${TZ:-Europe/Istanbul} \
-	  -e GITHUB_TOKEN=$$GITHUB_TOKEN \
+	  -e GITHUB_TOKEN \
 	  -e HOST_HOME=$$HOME \
 	  claude-yolo claude --dangerously-skip-permissions
