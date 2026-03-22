@@ -1,3 +1,5 @@
+WORKDIR ?= $$PWD
+
 .PHONY: build run
 
 build:
@@ -8,7 +10,7 @@ run:
 	  --cap-add=NET_ADMIN \
 	  --cap-add=NET_RAW \
 	  --network=host \
-	  -v "$$PWD:/workspace" \
+	  -v "$(WORKDIR):/workspace" \
 	  -v "$$HOME/.claude:/home/node/.claude" \
 	  -v "$$HOME/.claude.json:/home/node/.claude.json" \
 	  -e GIT_USER_NAME="$$(git config user.name)" \

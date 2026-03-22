@@ -67,7 +67,7 @@ make -C /path/to/claude-docker run
 Or add a shell alias:
 
 ```bash
-alias claude-yolo='make -C /path/to/claude-docker run'
+alias claude-yolo='make -C /path/to/claude-docker run WORKDIR="$(pwd)"'
 ```
 
 ### Environment Variables
