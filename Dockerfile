@@ -94,7 +94,7 @@ ENV GOPATH="/home/node/go"
 
 # Install golangci-lint
 ARG GOLANGCI_LINT_VERSION=2.11.3
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${GOLANGCI_LINT_VERSION}
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v${GOLANGCI_LINT_VERSION}
 
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
