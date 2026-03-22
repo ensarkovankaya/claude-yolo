@@ -93,7 +93,8 @@ ENV PATH="/usr/local/go/bin:/home/node/go/bin:$PATH"
 ENV GOPATH="/home/node/go"
 
 # Install golangci-lint
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+ARG GOLANGCI_LINT_VERSION=2.11.3
+RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${GOLANGCI_LINT_VERSION}
 
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh

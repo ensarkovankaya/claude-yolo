@@ -6,6 +6,11 @@ if [ -n "$HOST_HOME" ] && [ "$HOST_HOME" != "/home/node" ]; then
   sudo ln -sfn /home/node "$HOST_HOME"
 fi
 
+# Copy host .claude.json into container (mounted read-only at /host/)
+if [ -f /host/.claude.json ]; then
+  cp /host/.claude.json /home/node/.claude.json
+fi
+
 # Ensure skipDangerousModePermissionPrompt in settings.json
 SETTINGS="/home/node/.claude/settings.json"
 if [ -f "$SETTINGS" ]; then

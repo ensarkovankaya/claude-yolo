@@ -12,7 +12,7 @@ run:
 	  --network=host \
 	  -v "$(WORKDIR):/workspace" \
 	  -v "$$HOME/.claude:/home/node/.claude" \
-	  -v "$$HOME/.claude.json:/home/node/.claude.json" \
+	  -v "$$HOME/.claude.json:/host/.claude.json:ro" \
 	  -e GIT_USER_NAME="$$(git config user.name)" \
 	  -e GIT_USER_EMAIL="$$(git config user.email)" \
 	  -e TZ=$${TZ:-Europe/Istanbul} \
