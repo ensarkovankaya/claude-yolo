@@ -19,8 +19,8 @@ Builds a development container based on `node:20` with:
 Runs on container start:
 
 - Creates symlink from host home to container home so plugin paths resolve
+- Ensures `skipDangerousModePermissionPrompt` is set in `settings.json`
 - Pre-approves custom `ANTHROPIC_API_KEY` to skip the API key prompt
-- Copies host `.gitconfig` if mounted
 - Configures git and `gh` CLI with `GITHUB_TOKEN` if provided
 
 ### init-firewall.sh
@@ -78,12 +78,14 @@ alias claude-yolo='make -C /path/to/claude-docker run'
 | `GIT_USER_NAME` | Git user.name (auto-read from host git config)        |
 | `GIT_USER_EMAIL`| Git user.email (auto-read from host git config)       |
 | `TZ`            | Timezone (default: `Europe/Istanbul`)                 |
-| `HOME`          | Used to mount credentials and plugins from host       |
+| `HOME`          | Used to mount `~/.claude` and `~/.claude.json` from host |
 
 ### Mounted Volumes
 
-| Host Path                      | Container Path                           | Description                  |
-|--------------------------------|------------------------------------------|------------------------------|
-| `$PWD`                         | `/workspace`                             | Current directory            |
-| `~/.claude/.credentials.json`  | `/home/node/.claude/.credentials.json`   | Claude credentials (read-only) |
-| `~/.claude/plugins`            | `/home/node/.claude/plugins`             | Claude plugins (read-only)   |
+| Host Path       | Container Path           | Description                            |
+|-----------------|--------------------------|----------------------------------------|
+| `$PWD`          | `/workspace`             | Current directory                      |
+| `~/.claude`     | `/home/node/.claude`     | Claude state (sessions, settings, etc) |
+| `~/.claude.json`| `/home/node/.claude.json`| Claude config (theme, onboarding, etc) |
+
+> **Warning**: Don't run host Claude and container Claude simultaneously — `.claude.json` concurrent write corruption is a [known upstream bug](https://github.com/anthropics/claude-code/issues/29217).

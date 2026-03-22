@@ -9,8 +9,8 @@ run:
 	  --cap-add=NET_RAW \
 	  --network=host \
 	  -v "$$PWD:/workspace" \
-	  -v "$$HOME/.claude/.credentials.json:/home/node/.claude/.credentials.json:ro" \
-	  -v "$$HOME/.claude/plugins:/home/node/.claude/plugins:ro" \
+	  -v "$$HOME/.claude:/home/node/.claude" \
+	  -v "$$HOME/.claude.json:/home/node/.claude.json" \
 	  -e GIT_USER_NAME="$$(git config user.name)" \
 	  -e GIT_USER_EMAIL="$$(git config user.email)" \
 	  -e TZ=$${TZ:-Europe/Istanbul} \

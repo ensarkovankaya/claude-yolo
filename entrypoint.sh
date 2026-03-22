@@ -6,6 +6,15 @@ if [ -n "$HOST_HOME" ] && [ "$HOST_HOME" != "/home/node" ]; then
   sudo ln -sfn /home/node "$HOST_HOME"
 fi
 
+# Ensure skipDangerousModePermissionPrompt in settings.json
+SETTINGS="/home/node/.claude/settings.json"
+if [ -f "$SETTINGS" ]; then
+  tmp=$(jq '.skipDangerousModePermissionPrompt = true' "$SETTINGS")
+  echo "$tmp" > "$SETTINGS"
+else
+  echo '{"skipDangerousModePermissionPrompt":true}' > "$SETTINGS"
+fi
+
 # Pre-approve custom API key to skip "Detected a custom API key" prompt
 if [ -n "$ANTHROPIC_API_KEY" ]; then
   KEY_PREFIX=$(echo "$ANTHROPIC_API_KEY" | grep -o '.\{20\}$')
