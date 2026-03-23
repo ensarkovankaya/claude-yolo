@@ -8,7 +8,7 @@ Dockerized [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with ne
 
 Builds a development container based on `node:20` with:
 
-- **Dev tools**: git, zsh, fzf, vim, nano, gh, python3, Go, uv
+- **Dev tools**: git, zsh, fzf, vim, nano, gh, python3, Go, uv, AWS CLI
 - **Claude Code**: installed globally via npm
 - **Firewall support**: iptables, ipset, iproute2, dnsutils for network restriction
 - **Pre-configured**: skips onboarding prompts, dark theme, dangerous mode permission prompt disabled
@@ -89,6 +89,7 @@ alias claude-yolo='make -C /path/to/claude-docker run WORKDIR="$(pwd)"'
 | `~/.claude.json`       | `/home/node/.claude.json`   | Claude config (theme, onboarding, etc) |
 | `/var/run/docker.sock` | `/var/run/docker.sock`      | Host Docker daemon socket              |
 | `$(which docker)`      | `/usr/local/bin/docker:ro`  | Host Docker CLI binary (read-only)     |
+| `~/.aws`               | `/home/node/.aws:ro`        | AWS credentials/config (if exists)     |
 
 > **Note**: On macOS with Docker Desktop, socket permissions typically work out of the box. On Linux, if you hit permission errors, add `--group-add $(stat -c '%g' /var/run/docker.sock)` to the `docker run` command.
 

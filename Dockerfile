@@ -96,6 +96,16 @@ ENV GOPATH="/home/node/go"
 ARG GOLANGCI_LINT_VERSION=2.11.3
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v${GOLANGCI_LINT_VERSION}
 
+# Install AWS CLI
+USER root
+RUN ARCH=$(dpkg --print-architecture) && \
+  if [ "$ARCH" = "amd64" ]; then AWS_ARCH="x86_64"; else AWS_ARCH="aarch64"; fi && \
+  curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip" -o /tmp/awscliv2.zip && \
+  unzip -q /tmp/awscliv2.zip -d /tmp && \
+  /tmp/aws/install && \
+  rm -rf /tmp/aws /tmp/awscliv2.zip
+USER node
+
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/node/.local/bin:$PATH"

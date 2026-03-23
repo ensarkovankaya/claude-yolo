@@ -20,4 +20,5 @@ run:
 	  -e TZ=$${TZ:-Europe/Istanbul} \
 	  -e GITHUB_TOKEN \
 	  -e HOST_HOME=$$HOME \
+	  $$([ -d "$$HOME/.aws" ] && echo "-v $$HOME/.aws:/home/node/.aws:ro") \
 	  claude-yolo claude --dangerously-skip-permissions
