@@ -10,6 +10,8 @@ run:
 	  --cap-add=NET_ADMIN \
 	  --cap-add=NET_RAW \
 	  --network=host \
+	  -v /var/run/docker.sock:/var/run/docker.sock \
+	  -v "$$(which docker):/usr/local/bin/docker:ro" \
 	  -v "$(WORKDIR):/workspace" \
 	  -v "$$HOME/.claude:/home/node/.claude" \
 	  -v "$$HOME/.claude.json:/host/.claude.json:ro" \

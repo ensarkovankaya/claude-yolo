@@ -82,10 +82,14 @@ alias claude-yolo='make -C /path/to/claude-docker run WORKDIR="$(pwd)"'
 
 ### Mounted Volumes
 
-| Host Path       | Container Path           | Description                            |
-|-----------------|--------------------------|----------------------------------------|
-| `$PWD`          | `/workspace`             | Current directory                      |
-| `~/.claude`     | `/home/node/.claude`     | Claude state (sessions, settings, etc) |
-| `~/.claude.json`| `/home/node/.claude.json`| Claude config (theme, onboarding, etc) |
+| Host Path              | Container Path              | Description                            |
+|------------------------|-----------------------------|----------------------------------------|
+| `$PWD`                 | `/workspace`                | Current directory                      |
+| `~/.claude`            | `/home/node/.claude`        | Claude state (sessions, settings, etc) |
+| `~/.claude.json`       | `/home/node/.claude.json`   | Claude config (theme, onboarding, etc) |
+| `/var/run/docker.sock` | `/var/run/docker.sock`      | Host Docker daemon socket              |
+| `$(which docker)`      | `/usr/local/bin/docker:ro`  | Host Docker CLI binary (read-only)     |
+
+> **Note**: On macOS with Docker Desktop, socket permissions typically work out of the box. On Linux, if you hit permission errors, add `--group-add $(stat -c '%g' /var/run/docker.sock)` to the `docker run` command.
 
 > **Warning**: Don't run host Claude and container Claude simultaneously — `.claude.json` concurrent write corruption is a [known upstream bug](https://github.com/anthropics/claude-code/issues/29217).
