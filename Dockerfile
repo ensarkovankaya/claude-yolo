@@ -110,6 +110,10 @@ USER node
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/node/.local/bin:$PATH"
 
+# Install Playwright CLI and pre-cache browser
+RUN npm install -g @playwright/cli@latest && \
+  playwright-cli install
+
 # Install Claude
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
