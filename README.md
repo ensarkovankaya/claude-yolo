@@ -44,30 +44,26 @@ sudo /usr/local/bin/init-firewall.sh
 
 > Requires `--cap-add=NET_ADMIN` when starting the container.
 
+## Install
+
+```bash
+make install
+```
+
+This symlinks `manage.sh` as `yolo` in `/usr/local/bin` so you can run it from anywhere.
+
 ## Build
 
 ```bash
-make build
-```
-
-Or directly:
-
-```bash
-docker build -t claude-yolo .
+yolo build
 ```
 
 ## Usage
 
-From any directory:
+From any project directory:
 
 ```bash
-make -C /path/to/claude-docker run
-```
-
-Or add a shell alias:
-
-```bash
-alias claude-yolo='make -C /path/to/claude-docker run WORKDIR="$(pwd)"'
+yolo start
 ```
 
 ### Environment Variables
