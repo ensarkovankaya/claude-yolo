@@ -11,6 +11,16 @@ if [ -f /host/.claude.json ]; then
   cp /host/.claude.json /home/node/.claude.json
 fi
 
+# Copy plugins from host
+if [ -d /host/plugins ]; then
+  cp -r /host/plugins /home/node/.claude/plugins
+fi
+
+# Copy MCP OAuth credentials from host
+if [ -f /host/.credentials.json ]; then
+  cp /host/.credentials.json /home/node/.claude/.credentials.json
+fi
+
 # Pre-approve custom API key to skip "Detected a custom API key" prompt
 if [ -n "$ANTHROPIC_API_KEY" ]; then
   KEY_PREFIX=$(echo "$ANTHROPIC_API_KEY" | grep -o '.\{20\}$')

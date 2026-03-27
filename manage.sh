@@ -18,6 +18,8 @@ _docker_run() {
 	  -e GITHUB_TOKEN \
 	  -e HOST_HOME=$HOME \
 	  $([ -d "$HOME/.aws" ] && echo "-v $HOME/.aws:/home/node/.aws:ro") \
+	  $([ -d "$HOME/.claude/plugins" ] && echo "-v $HOME/.claude/plugins:/host/plugins:ro") \
+	  $([ -f "$HOME/.claude/.credentials.json" ] && echo "-v $HOME/.claude/.credentials.json:/host/.credentials.json:ro") \
 	  claude-yolo "$@"
 }
 
