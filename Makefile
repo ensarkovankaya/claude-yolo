@@ -1,4 +1,7 @@
-.PHONY: install
+.PHONY: install build
+
+build:
+	@docker build --no-cache -t claude-yolo .
 
 install:
 	@echo "Installing yolo -> /usr/local/bin/yolo"

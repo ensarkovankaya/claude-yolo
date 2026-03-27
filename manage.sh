@@ -4,10 +4,6 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKDIR="${WORKDIR:-$PWD}"
 
-cmd_build() {
-	docker build --no-cache -t claude-yolo "$SCRIPT_DIR"
-}
-
 cmd_start() {
 	docker run -it --rm \
 	  --cap-add=NET_ADMIN \
@@ -27,10 +23,9 @@ cmd_start() {
 }
 
 case "${1:-help}" in
-	build) cmd_build ;;
 	start) cmd_start ;;
 	*)
-		echo "Usage: $(basename "$0") {build|start}"
+		echo "Usage: $(basename "$0") {start}"
 		exit 1
 		;;
 esac
