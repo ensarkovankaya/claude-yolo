@@ -11,15 +11,6 @@ if [ -f /host/.claude.json ]; then
   cp /host/.claude.json /home/node/.claude.json
 fi
 
-# Ensure skipDangerousModePermissionPrompt in settings.json
-SETTINGS="/home/node/.claude/settings.json"
-if [ -f "$SETTINGS" ]; then
-  tmp=$(jq '.skipDangerousModePermissionPrompt = true' "$SETTINGS")
-  echo "$tmp" > "$SETTINGS"
-else
-  echo '{"skipDangerousModePermissionPrompt":true}' > "$SETTINGS"
-fi
-
 # Pre-approve custom API key to skip "Detected a custom API key" prompt
 if [ -n "$ANTHROPIC_API_KEY" ]; then
   KEY_PREFIX=$(echo "$ANTHROPIC_API_KEY" | grep -o '.\{20\}$')
@@ -34,11 +25,6 @@ fi
 # Configure git user from environment variables
 [ -n "$GIT_USER_NAME" ] && git config --global user.name "$GIT_USER_NAME"
 [ -n "$GIT_USER_EMAIL" ] && git config --global user.email "$GIT_USER_EMAIL"
-
-# Install Playwright CLI skills if not already present
-if [ ! -d "/home/node/.claude/skills/playwright-cli" ]; then
-  playwright-cli install --skills
-fi
 
 # Configure git with GitHub token if provided
 if [ -n "$GITHUB_TOKEN" ]; then

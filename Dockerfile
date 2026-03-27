@@ -118,8 +118,9 @@ RUN npm install -g @playwright/cli@latest && \
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # Pre-configure Claude to skip first-run prompts
-RUN echo '{"theme":"dark","hasCompletedOnboarding":true,"customApiKeyResponses":{"approved":[],"rejected":[]},"projects":{"/workspace":{"allowedTools":[],"hasTrustDialogAccepted":true}}}' > /home/node/.claude.json && \
-  echo '{"$schema":"https://json.schemastore.org/claude-code-settings.json","skipDangerousModePermissionPrompt":true}' > /home/node/.claude/settings.json
+COPY --chown=node:node .claude.json /home/node/.claude.json
+COPY --chown=node:node .claude/settings.json /home/node/.claude/settings.json
+COPY --chown=node:node .claude/skills/ /home/node/.claude/skills/
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/

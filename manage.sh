@@ -12,7 +12,6 @@ cmd_start() {
 	  -v /var/run/docker.sock:/var/run/docker.sock \
 	  -v "$(which docker):/usr/local/bin/docker:ro" \
 	  -v "$WORKDIR:/workspace" \
-	  -v "$SCRIPT_DIR/.claude:/home/node/.claude:ro" \
 	  -e GIT_USER_NAME="$(git config user.name)" \
 	  -e GIT_USER_EMAIL="$(git config user.email)" \
 	  -e TZ=${TZ:-Europe/Istanbul} \

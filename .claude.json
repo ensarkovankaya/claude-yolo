@@ -1,0 +1,14 @@
+{
+  "theme": "dark",
+  "hasCompletedOnboarding": true,
+  "customApiKeyResponses": {
+    "approved": [],
+    "rejected": []
+  },
+  "projects": {
+    "/workspace": {
+      "allowedTools": [],
+      "hasTrustDialogAccepted": true
+    }
+  }
+}
