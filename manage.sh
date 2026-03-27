@@ -21,7 +21,7 @@ _docker_run() {
 	  claude-yolo "$@"
 }
 
-cmd_start() {
+cmd_claude() {
 	_docker_run claude --dangerously-skip-permissions "$@"
 }
 
@@ -30,10 +30,10 @@ cmd_sh() {
 }
 
 case "${1:-help}" in
-	start) shift; cmd_start "$@" ;;
-	sh)    cmd_sh ;;
+	claude) shift; cmd_claude "$@" ;;
+	sh)     cmd_sh ;;
 	*)
-		echo "Usage: $(basename "$0") {start|sh}"
+		echo "Usage: $(basename "$0") {claude|sh}"
 		exit 1
 		;;
 esac
