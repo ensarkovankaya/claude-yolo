@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKDIR="${WORKDIR:-$PWD}"
 
-cmd_start() {
+_docker_run() {
 	docker run -it --rm \
 	  --cap-add=NET_ADMIN \
 	  --cap-add=NET_RAW \
@@ -18,13 +18,22 @@ cmd_start() {
 	  -e GITHUB_TOKEN \
 	  -e HOST_HOME=$HOME \
 	  $([ -d "$HOME/.aws" ] && echo "-v $HOME/.aws:/home/node/.aws:ro") \
-	  claude-yolo claude --dangerously-skip-permissions
+	  claude-yolo "$@"
+}
+
+cmd_start() {
+	_docker_run claude --dangerously-skip-permissions "$@"
+}
+
+cmd_sh() {
+	_docker_run bash
 }
 
 case "${1:-help}" in
-	start) cmd_start ;;
+	start) shift; cmd_start "$@" ;;
+	sh)    cmd_sh ;;
 	*)
-		echo "Usage: $(basename "$0") {start}"
+		echo "Usage: $(basename "$0") {start|sh}"
 		exit 1
 		;;
 esac
