@@ -10,7 +10,6 @@ _docker_run() {
 	  --cap-add=NET_RAW \
 	  --network=host \
 	  -v /var/run/docker.sock:/var/run/docker.sock \
-	  -v "$(which docker):/usr/local/bin/docker:ro" \
 	  -v "$WORKDIR:/workspace" \
 	  -e GIT_USER_NAME="$(git config user.name)" \
 	  -e GIT_USER_EMAIL="$(git config user.email)" \

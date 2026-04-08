@@ -1,5 +1,17 @@
 #!/bin/zsh
 
+# Grant Docker socket access to the node user
+if [ -S /var/run/docker.sock ]; then
+  DOCKER_GID=$(stat -c '%g' /var/run/docker.sock)
+  if ! getent group "$DOCKER_GID" > /dev/null 2>&1; then
+    sudo groupadd -g "$DOCKER_GID" docker
+  fi
+  DOCKER_GROUP=$(getent group "$DOCKER_GID" | cut -d: -f1)
+  if ! id -nG node | grep -qw "$DOCKER_GROUP"; then
+    sudo usermod -aG "$DOCKER_GROUP" node
+  fi
+fi
+
 # Create symlink from host home to container home so plugin absolute paths resolve
 if [ -n "$HOST_HOME" ] && [ "$HOST_HOME" != "/home/node" ]; then
   sudo mkdir -p "$(dirname "$HOST_HOME")"

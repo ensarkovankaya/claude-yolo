@@ -114,6 +114,14 @@ ENV PATH="/home/node/.local/bin:$PATH"
 RUN npm install -g @playwright/cli@latest && \
   playwright-cli install
 
+# Install Docker CLI
+USER root
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker.gpg && \
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo $VERSION_CODENAME) stable" > /etc/apt/sources.list.d/docker.list && \
+  apt-get update && apt-get install -y --no-install-recommends docker-ce-cli && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
+USER node
+
 # Install Claude
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
@@ -126,7 +134,7 @@ COPY --chown=node:node .claude/skills/ /home/node/.claude/skills/
 COPY init-firewall.sh /usr/local/bin/
 USER root
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh, /bin/mkdir, /bin/ln" > /etc/sudoers.d/node-firewall && \
+  echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh, /bin/mkdir, /bin/ln, /usr/sbin/groupadd, /usr/sbin/usermod" > /etc/sudoers.d/node-firewall && \
   chmod 0440 /etc/sudoers.d/node-firewall
 USER node
 
