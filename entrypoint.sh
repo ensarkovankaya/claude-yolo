@@ -56,8 +56,27 @@ if [ -n "$GITHUB_TOKEN" ]; then
   gh auth setup-git
 fi
 
+# Re-exec with Docker group membership if needed
+DOCKER_GROUP_EXEC=()
+if [ -S /var/run/docker.sock ]; then
+  DOCKER_GID=$(stat -c '%g' /var/run/docker.sock)
+  DOCKER_GROUP=$(getent group "$DOCKER_GID" | cut -d: -f1)
+  # Use sg if the socket's group isn't active in this process
+  if ! id -Gn 2>/dev/null | grep -qw "$DOCKER_GROUP"; then
+    DOCKER_GROUP_EXEC=(sg "$DOCKER_GROUP" -c)
+  fi
+fi
+
 if [ $# -gt 0 ]; then
-  exec "$@"
+  if [ ${#DOCKER_GROUP_EXEC[@]} -gt 0 ]; then
+    exec "${DOCKER_GROUP_EXEC[@]}" "$(printf '%q ' "$@")"
+  else
+    exec "$@"
+  fi
 else
-  exec /bin/zsh
+  if [ ${#DOCKER_GROUP_EXEC[@]} -gt 0 ]; then
+    exec "${DOCKER_GROUP_EXEC[@]}" /bin/zsh
+  else
+    exec /bin/zsh
+  fi
 fi
