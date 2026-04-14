@@ -131,6 +131,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 USER node
 RUN npm install -g @playwright/cli@latest && \
   playwright-cli install-browser chromium
+ENV PLAYWRIGHT_MCP_BROWSER=chromium
 
 # Install Docker CLI
 USER root
