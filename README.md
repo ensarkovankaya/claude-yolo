@@ -186,6 +186,10 @@ On container start, `entrypoint.sh` runs:
 6. **GitHub auth** — `gh auth login --with-token` + `gh auth setup-git` if `GITHUB_TOKEN` set
 7. **Group re-exec** — re-execute with Docker group membership via `sg` if socket group not yet active
 
+### System Prompt
+
+`CLAUDE.local.md` contains container-specific instructions (env vars, nested Docker usage, available tools). It is injected at runtime via `--append-system-prompt` by `manage.sh` — no files written to host or workspace.
+
 ### Architecture
 
 ```
@@ -199,6 +203,8 @@ Host                          Container (claude-yolo)
                                |    -> socket permissions
                                |    -> settings merge
                                |    -> git/gh config
+                               |  manage.sh
+                               |    -> append CLAUDE.local.md as system prompt
                                |    -> exec claude --dangerously-skip-permissions
                                |
                                |  [optional] sudo init-firewall.sh
