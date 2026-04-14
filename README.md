@@ -114,6 +114,7 @@ make build
 |---------------------|----------|--------------------------------------------------|
 | `ANTHROPIC_API_KEY` | yes      | Claude API key, auto-approved at startup         |
 | `GITHUB_TOKEN`      | no       | GitHub auth for git + gh CLI                     |
+| `GREPTILE_API_KEY`  | no       | Greptile API key for codebase search             |
 | `GIT_USER_NAME`     | no       | git user.name (auto-read from host git config)   |
 | `GIT_USER_EMAIL`    | no       | git user.email (auto-read from host git config)  |
 | `TZ`                | no       | timezone (default: `Europe/Istanbul`)            |

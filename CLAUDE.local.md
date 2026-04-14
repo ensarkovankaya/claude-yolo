@@ -13,6 +13,7 @@ You are running inside a `claude-yolo` Docker container with `--dangerously-skip
 | `GIT_USER_NAME`  | from host git config     | auto-configured at startup           |
 | `GIT_USER_EMAIL` | from host git config     | auto-configured at startup           |
 | `GITHUB_TOKEN`   | if set on host           | gh CLI + git HTTPS auth              |
+| `GREPTILE_API_KEY` | if set on host         | Greptile API key for codebase search |
 
 ## Nested Docker
 

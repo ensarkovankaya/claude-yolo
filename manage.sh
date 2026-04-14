@@ -17,6 +17,7 @@ _docker_run() {
 	  -e GIT_USER_EMAIL="$(git config user.email)" \
 	  -e TZ=${TZ:-Europe/Istanbul} \
 	  -e GITHUB_TOKEN \
+	  -e GREPTILE_API_KEY \
 	  -e HOST_HOME=$HOME \
 	  -e HOST_WORKDIR="$WORKDIR" \
 	  $([ -d "$HOME/.aws" ] && echo "-v $HOME/.aws:/home/node/.aws:ro") \
