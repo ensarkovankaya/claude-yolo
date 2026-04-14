@@ -45,8 +45,8 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
 ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
-RUN mkdir -p /workspace /home/node/.claude && \
-  chown -R node:node /workspace /home/node/.claude
+RUN mkdir -p /workspace /home/node/.claude /etc/claude-defaults && \
+  chown -R node:node /workspace /home/node/.claude /etc/claude-defaults
 
 WORKDIR /workspace
 
@@ -127,8 +127,8 @@ RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # Pre-configure Claude to skip first-run prompts
 COPY --chown=node:node .claude.json /home/node/.claude.json
-COPY --chown=node:node .claude/settings.json /home/node/.claude/settings.json
-COPY --chown=node:node .claude/skills/ /home/node/.claude/skills/
+COPY --chown=node:node .claude/settings.json /etc/claude-defaults/settings.json
+COPY --chown=node:node .claude/skills/ /etc/claude-defaults/skills/
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/

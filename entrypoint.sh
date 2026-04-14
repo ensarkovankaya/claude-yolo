@@ -18,19 +18,19 @@ if [ -n "$HOST_HOME" ] && [ "$HOST_HOME" != "/home/node" ]; then
   sudo ln -sfn /home/node "$HOST_HOME"
 fi
 
-# Copy host .claude.json into container (mounted read-only at /host/)
-if [ -f /host/.claude.json ]; then
-  cp /host/.claude.json /home/node/.claude.json
+# Merge container defaults into host-mounted .claude (never overwrite existing)
+if [ ! -f /home/node/.claude/settings.json ] && [ -f /etc/claude-defaults/settings.json ]; then
+  cp /etc/claude-defaults/settings.json /home/node/.claude/settings.json
 fi
 
-# Copy plugins from host
-if [ -d /host/plugins ]; then
-  cp -r /host/plugins /home/node/.claude/plugins
-fi
-
-# Copy MCP OAuth credentials from host
-if [ -f /host/.credentials.json ]; then
-  cp /host/.credentials.json /home/node/.claude/.credentials.json
+if [ -d /etc/claude-defaults/skills ]; then
+  mkdir -p /home/node/.claude/skills
+  for skill_dir in /etc/claude-defaults/skills/*/; do
+    skill_name=$(basename "$skill_dir")
+    if [ ! -d "/home/node/.claude/skills/$skill_name" ]; then
+      cp -r "$skill_dir" "/home/node/.claude/skills/$skill_name"
+    fi
+  done
 fi
 
 # Pre-approve custom API key to skip "Detected a custom API key" prompt
