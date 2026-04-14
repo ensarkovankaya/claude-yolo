@@ -110,9 +110,27 @@ USER node
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/node/.local/bin:$PATH"
 
-# Install Playwright CLI and pre-cache browser
+# Install Playwright browser dependencies and CLI
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  libnspr4 \
+  libnss3 \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libdbus-1-3 \
+  libcups2 \
+  libxkbcommon0 \
+  libasound2 \
+  libgbm1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxrandr2 \
+  libatspi2.0-0 \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+USER node
 RUN npm install -g @playwright/cli@latest && \
-  playwright-cli install
+  playwright-cli install-browser chromium
 
 # Install Docker CLI
 USER root
