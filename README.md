@@ -118,6 +118,7 @@ make build
 | `GIT_USER_EMAIL`    | no       | git user.email (auto-read from host git config)  |
 | `TZ`                | no       | timezone (default: `Europe/Istanbul`)            |
 | `HOST_HOME`         | auto     | set by manage.sh for plugin path resolution      |
+| `HOST_WORKDIR`      | auto     | set by manage.sh for nested Docker volume mounts |
 
 ### Volumes
 
