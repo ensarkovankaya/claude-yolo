@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 WORKDIR="${WORKDIR:-$PWD}"
 
 _docker_run() {
@@ -24,7 +24,7 @@ _docker_run() {
 }
 
 cmd_claude() {
-	_docker_run claude --dangerously-skip-permissions "$@"
+	_docker_run claude --dangerously-skip-permissions --append-system-prompt "$(cat "$SCRIPT_DIR/CLAUDE.local.md")" "$@"
 }
 
 cmd_sh() {
