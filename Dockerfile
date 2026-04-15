@@ -111,6 +111,10 @@ USER node
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/node/.local/bin:$PATH"
 
+# Install Bun
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/home/node/.bun/bin:$PATH"
+
 # Install Playwright browser dependencies and CLI
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
