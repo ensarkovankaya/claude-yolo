@@ -21,6 +21,7 @@ _docker_run() {
 	  -e HOST_HOME=$HOME \
 	  -e HOST_WORKDIR="$WORKDIR" \
 	  $([ -d "$HOME/.aws" ] && echo "-v $HOME/.aws:/home/node/.aws:ro") \
+	  $([ -d "$HOME/.config/ccstatusline" ] && echo "-v $HOME/.config/ccstatusline:/home/node/.config/ccstatusline") \
 	  claude-yolo "$@"
 }
 
