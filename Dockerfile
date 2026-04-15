@@ -143,7 +143,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 USER node
 
 # Install Claude
-RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} ccstatusline@latest
 
 # Pre-configure Claude to skip first-run prompts
 COPY --chown=node:node .claude.json /home/node/.claude.json
