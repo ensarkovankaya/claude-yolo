@@ -33,7 +33,13 @@ cmd_sh() {
 	_docker_run bash
 }
 
+cmd_update() {
+	echo "Building claude-yolo image..."
+	docker build -t claude-yolo "$SCRIPT_DIR"
+}
+
 case "${1:-claude}" in
-	sh) cmd_sh ;;
-	*)  cmd_claude "$@" ;;
+	sh)     cmd_sh ;;
+	update) cmd_update ;;
+	*)      cmd_claude "$@" ;;
 esac
