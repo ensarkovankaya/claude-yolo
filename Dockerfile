@@ -83,7 +83,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
   -x
 
 # Install Go
-ARG GO_VERSION=1.24.1
+ARG GO_VERSION=1.26.2
 USER root
 RUN ARCH=$(dpkg --print-architecture) && \
   wget -q "https://go.dev/dl/go${GO_VERSION}.linux-${ARCH}.tar.gz" && \
