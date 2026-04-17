@@ -93,9 +93,16 @@ USER node
 ENV PATH="/usr/local/go/bin:/home/node/go/bin:$PATH"
 ENV GOPATH="/home/node/go"
 
-# Install golangci-lint
+# Install golangci-lint (multiple versions)
 ARG GOLANGCI_LINT_VERSION=2.11.3
-RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v${GOLANGCI_LINT_VERSION}
+RUN GOPATH_BIN=$(go env GOPATH)/bin && \
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b "$GOPATH_BIN" v${GOLANGCI_LINT_VERSION} && \
+  cp "$GOPATH_BIN/golangci-lint" "$GOPATH_BIN/golangci-lint-v${GOLANGCI_LINT_VERSION}" && \
+  for V in 2.6.2 2.2.1 1.64.8; do \
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b "$GOPATH_BIN" "v${V}" && \
+    mv "$GOPATH_BIN/golangci-lint" "$GOPATH_BIN/golangci-lint-v${V}"; \
+  done && \
+  cp "$GOPATH_BIN/golangci-lint-v${GOLANGCI_LINT_VERSION}" "$GOPATH_BIN/golangci-lint"
 
 # Install AWS CLI
 USER root
