@@ -35,7 +35,7 @@ cmd_sh() {
 
 cmd_update() {
 	echo "Building claude-yolo image..."
-	docker build -t claude-yolo "$SCRIPT_DIR"
+	docker build --no-cache -t claude-yolo "$SCRIPT_DIR"
 }
 
 case "${1:-claude}" in
